@@ -1,3 +1,4 @@
+
 #coder :- Salman Faris
 #Connect button on pin number GPIO12
 
@@ -8,11 +9,12 @@ import datetime
 import telepot
 import RPi.GPIO as GPIO
 
-#Button
-GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#Set Gpio 
+GPIO.setmode(GPIO.BCM)
 
-# to use Raspberry Pi board pin numbers
-GPIO.setmode(GPIO.BOARD)
+
+#Button
+GPIO.setup(12,GPIO.IN)
 
 
 def handle(msg):
@@ -21,11 +23,9 @@ def handle(msg):
 
     print 'Got command: %s' % command
 
-    button_state = GPIO.input(12)
-         if button_state == False:
-             GPIO.output(12, True)
-             bot.sendMessage(chat_id,text="Button Pressed")
-             time.sleep(0.2)
+    if(GPIO.input(12)):
+        bot.sendMessage(chat_id,text="Button Pressed")
+        time.sleep(0.2)
     
 
 bot = telepot.Bot('Bot Token')
